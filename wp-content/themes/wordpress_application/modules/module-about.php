@@ -4,8 +4,7 @@ defined('ABSPATH') OR exit('No direct script access allowed');
 <section id="about" class="about section-bg">
     <div class="container">
         <div class="row gy-4">
-            <div class="image col-xl-5">
-            </div>
+            <div class="image col-xl-5"></div>
             <div class="col-xl-7">
                 <div class="content d-flex flex-column justify-content-center ps-0 ps-xl-4">
                     <h3 data-aos="fade-in" data-aos-delay="100"><?php the_sub_field('main_text'); ?></h3>
@@ -21,7 +20,7 @@ defined('ABSPATH') OR exit('No direct script access allowed');
                                 <div class="col-md-6 icon-box" data-aos="fade-up" <?php echo $item['key']; ?>>
                                     <i class="<?php echo $item['icon']; ?>"></i>
                                     <h4><a href="<?php echo $item['link']['url']; ?>"><?php echo $item['link']['title']; ?></a></h4>
-                                    <p></p><?php echo $item['text']; ?></p>
+                                    <p><?php echo $item['text']; ?></p>
                                 </div>
                                 <?php
                             }
