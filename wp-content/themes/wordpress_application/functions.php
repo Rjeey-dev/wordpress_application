@@ -31,6 +31,21 @@ function wordpress_scripts() {
 	wp_register_style('style', $themes_uri . '/assets/css/style.css', false, $ver);
 	wp_enqueue_style('style');
 
+    wp_register_style('bootstrap', $themes_uri . '/assets/vendor/bootstrap/css/bootstrap.min.css', false, $ver);
+    wp_enqueue_style('bootstrap');
+
+    wp_register_style('bootstrap-icons', $themes_uri . '/assets/vendor/bootstrap-icons/bootstrap-icons.css', false, $ver);
+    wp_enqueue_style('bootstrap-icons');
+
+    wp_register_style('boxicons', $themes_uri . '/assets/vendor/boxicons/css/boxicons.min.css', false, $ver);
+    wp_enqueue_style('boxicons');
+
+    wp_register_style('glightbox', $themes_uri . '/assets/vendor/glightbox/css/glightbox.min.css', false, $ver);
+    wp_enqueue_style('glightbox');
+
+    wp_register_style('swiper-bundle', $themes_uri . '/assets/vendor/swiper/swiper-bundle.min.css', false, $ver);
+    wp_enqueue_style('swiper-bundle');
+
 
 	wp_deregister_script('jquery');
 	wp_deregister_script('wp-embed');
