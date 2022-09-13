@@ -5,7 +5,6 @@ defined('ABSPATH') OR exit('No direct script access allowed');
     <div class="container">
         <div class="row gy-4">
             <div class="image col-xl-5">
-
             </div>
             <div class="col-xl-7">
                 <div class="content d-flex flex-column justify-content-center ps-0 ps-xl-4">
