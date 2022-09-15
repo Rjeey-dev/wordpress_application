@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') OR exit('No direct script access allowed');
 ?>
-<section id="services" class="services section-bg">
+<section <?php if ( get_sub_field('block_id') ) { echo 'id="'.trim(esc_attr(get_sub_field('block_id'))).'"'; } ?> class="services section-bg">
     <div class="container">
         <div class="section-title">
             <h2 data-aos="fade-in"><?php the_sub_field('title'); ?></h2>
@@ -11,7 +11,7 @@ defined('ABSPATH') OR exit('No direct script access allowed');
             <?php
             $infografica = get_sub_field('services');
             if ( $infografica ) {
-                foreach ($infografica as $item) {
+                foreach ( $infografica as $item ) {
                     ?>
                     <div class="col-md-6 d-flex" data-aos="fade-right">
                         <div class="card">

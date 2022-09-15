@@ -13,7 +13,7 @@ $query = [
 $query = new WP_Query($query);
 if ( $query->have_posts() ) {
     ?>
-    <section id="faq" class="faq section-bg">
+    <section <?php if ( get_sub_field('block_id') ) { echo 'id="'.trim(esc_attr(get_sub_field('block_id'))).'"'; } ?> class="faq section-bg">
         <div class="container">
             <div class="section-title">
                 <h2 data-aos="fade-in"><?php the_sub_field('title'); ?></h2>
@@ -27,15 +27,16 @@ if ( $query->have_posts() ) {
                     <div class="row faq-item d-flex align-items-stretch" data-aos="fade-up">
                         <div class="col-lg-5">
                             <i class="bx bx-help-circle"></i>
-                            <h4><?php $titleQua = get_field('title'); echo $titleQua ?></h4>
+                            <h4><?php $title_qua = get_field('title'); echo $title_qua ?></h4>
                         </div>
                         <div class="col-lg-7">
-                            <p><?php $descriptionQua = get_field('description'); echo $descriptionQua ?></p>
+                            <p><?php $description_qua = get_field('description'); echo $description_qua ?></p>
                         </div>
                     </div>
                     <?php
             }
 }
+wp_reset_postdata();
 ?>
         </div>
     </section>

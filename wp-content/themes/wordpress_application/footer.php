@@ -20,7 +20,7 @@
                 <?php
                 $infografica = get_field('social_links','option');
                 if ( $infografica ) {
-                    foreach ($infografica as $item) {
+                    foreach ( $infografica as $item ) {
                         ?>
                         <a href="<?php echo $item['link']; ?>" class="<?php echo $item['сlass']; ?>"><i class="<?php echo $item['icon_class']; ?>"></i></a>
                         <?php
@@ -32,6 +32,5 @@
     </div>
 </footer>
 <?php wp_footer(); ?>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') OR exit('No direct script access allowed');
 $post_id = get_the_ID();
 ?>
-<div class="col-lg-4 col-md-6 portfolio-item <?php $key = get_field('key'); echo $key ?>">
+<div class="col-lg-4 col-md-6 portfolio-item <?php $key = get_field('key'); echo $key; ?>">
     <div class="portfolio-wrap">
         <?php
         $attr = 'img-fluid';
