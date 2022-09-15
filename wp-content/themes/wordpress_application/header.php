@@ -13,6 +13,9 @@
         <?php wp_head(); ?>
     </head>
     <body>
+<?php
+if ( is_front_page() ) {
+    ?>
     <header id="header">
         <div class="container d-flex align-items-center justify-content-between">
             <?php
@@ -73,5 +76,22 @@
         </div>
         </div>
     </section>
+    <?php
+}
+else if (( ! is_404() )) {
+
+    if (!is_front_page()) {
+        $_breadcrumbs = [];
+
+        if (get_post_type() == 'projects' && get_opt('module-portfolio')) {
+            $_breadcrumbs[] = [get_the_title(get_opt('module-portfolio')), get_permalink(get_opt('module-portfolio'))];
+        }
+
+        breadcrumbs($_breadcrumbs);
+    }
+
+    get_template_part('parts/parts', 'header');
+}
+?>
     <main id="main">
 <?php
