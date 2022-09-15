@@ -1406,6 +1406,11 @@ section {
   #footer .credits {
     padding: 5px;
     float: none;
-    text-align: ceneter;
+    text-align: center;
   }
+}
+
+.box {
+  justify-content: center;
+  display: flex;
 }
