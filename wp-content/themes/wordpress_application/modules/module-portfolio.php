@@ -18,7 +18,6 @@ defined('ABSPATH') OR exit('No direct script access allowed');
                                 ?>
                                 <li data-filter="*" class="<?php echo $item['class']; ?>"><?php echo $item['name']; ?></li>
                                 <?php
-
                             } else {
                                 ?>
                                 <li data-filter="<?php echo $item['filter_text']; ?>"><?php echo $item['name']; ?></li>
@@ -30,30 +29,32 @@ defined('ABSPATH') OR exit('No direct script access allowed');
                 </ul>
             </div>
         </div>
-        <div class="row portfolio-container" data-aos="fade-up">
-            <?php
-            $portfolio = get_sub_field('portfolio');
-            if ( $portfolio ) {
-                foreach ($portfolio as $item) {
-                    ?>
-                    <div class="col-lg-4 col-md-6 portfolio-item <?php echo $item['key']; ?>">
-                        <div class="portfolio-wrap">
-                            <img src="<?php echo $item['image']['url']; ?>" class="img-fluid" alt="">
-                            <div class="portfolio-links">
-                                <a href="<?php echo $item['main_link']['url']; ?>" data-gallery="portfolioGallery" class="portfolio-lightbox" title="<?php echo $item['main_link']['title']; ?>"><i class="bi bi-plus"></i></a>
-                                <a href="<?php echo $item['link']['url']; ?>" title="<?php echo $item['link']['title']; ?>"><i class="bi bi-link"></i></a>
-                            </div>
-                            <div class="portfolio-info">
-                                <h4><?php echo $item['portfolio_info'][0]['first_text']; ?></h4>
-                                <p><?php echo $item['portfolio_info'][0]['second_text']; ?></p>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-            }
+        <?php
+        $query = [
+            'posts_per_page' => 9,
+            'post_type' => 'portfolio',
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ];
+        $query = new WP_Query($query);
+        if ( $query->have_posts() ) {
             ?>
-        </div>
+            <div class="row portfolio-container" data-aos="fade-up">
+                <?php
+                while ( $query->have_posts() ) {
+                    $query->the_post();
+                    $post_id = get_the_ID();
+
+                    get_template_part('part', 'portfolio');
+                }
+                ?>
+            </div>
+            <?php
+        }
+        wp_reset_postdata();
+        ?>
     </div>
 </section>
 <?php
+
