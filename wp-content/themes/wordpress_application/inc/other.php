@@ -407,7 +407,7 @@ function breadcrumbs($bread = NULL) {
 	if ( $bread == NULL || !is_array($bread) )
 		return NULL;
 
-	$output = '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . esc_url(home_url('/')) . '"><span itemprop="name">Главная</span></a><meta itemprop="position" content="1" /></li>';
+	$output = '<section class="breadcrumbs"><div class="container"><div class="d-flex justify-content-between align-items-center"><ol><li><a href="' . esc_url(home_url('/')) . '"><span itemprop="name">Home</span></a></li>';
 
 	$i = 1;
 	foreach ($bread as $value) {
@@ -420,10 +420,10 @@ function breadcrumbs($bread = NULL) {
 
 		$i ++;
 
-		$output .= '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="' . $link . '"><span itemprop="name">' . $title . '</span></a><meta itemprop="position" content="' . $i . '" /></li>';
+		$output .= '<li><a href="' . $link . '"><span itemprop="name">' . $title . '</span></a></li>';
 	}
 
-	$output .= '</ol>';
+	$output .= '</ol></div></div></section>';
 
 	echo $output;
 }

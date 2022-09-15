@@ -12,4 +12,10 @@ function sap_options() {
 		'type' => 'heading',
 	];
 
+    $sap_options[] = [
+        'name' => 'Страница портфолио',
+        'id' => 'page-portfolio',
+        'type' => 'page',
+    ];
+
 }
