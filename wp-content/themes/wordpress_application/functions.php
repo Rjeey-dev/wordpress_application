@@ -112,6 +112,40 @@ function custom_posts() {
         'query_var' => TRUE,
         'show_in_nav_menus' => NULL,
     ]);
+
+    register_post_type('faq', [
+        'label' => NULL,
+        'labels' => [
+            'name' => 'FAQ',
+            'singular_name' => 'FAQ',
+            'add_new' => 'Добавить запись',
+            'add_new_item' => 'Добавить запись',
+            'edit_item' => 'Редактировать запись',
+            'new_item' => 'Новая запись',
+            'view_item' => 'Просмотреть запись',
+            'search_items' => 'Искать запись',
+            'not_found' => 'Запись не найдена',
+            'not_found_in_trash' => 'Запись не найдена',
+            'parent_item_colon' => '',
+            'menu_name' => 'FAQ',
+        ],
+        'description' => '',
+        'public' => true,
+        'publicly_queryable' => true,
+        'exclude_from_search' => TRUE,
+        'show_ui' => TRUE,
+        'show_in_menu' => NULL,
+        'menu_position' => NULL,
+        'menu_icon' => 'dashicons-screenoptions',
+        'capability_type' => 'post',
+        'hierarchical' => FALSE,
+        'supports' => ['title', 'editor', 'thumbnail'],
+        'taxonomies' => [],
+        'has_archive' => FALSE,
+        'rewrite' => ['slug' => 'faq'],
+        'query_var' => TRUE,
+        'show_in_nav_menus' => NULL,
+    ]);
 }
 
 add_filter('upload_mimes', 'svg_upload_allow');
