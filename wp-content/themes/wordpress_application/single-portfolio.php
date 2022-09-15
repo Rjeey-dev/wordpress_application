@@ -55,17 +55,6 @@ $page_id = get_the_ID();
         </div>
     </div>
 </section>
-
 <?php
-
-
-if ( have_rows('page_builder') ) {
-    while ( have_rows('page_builder') ) {
-        the_row();
-
-        get_template_part('modules/'.get_row_layout());
-    }
-}
-
 get_footer();
 
