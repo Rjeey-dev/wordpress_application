@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') OR exit('No direct script access allowed');
 ?>
-<section id="portfolio" class="portfolio section-bg">
+<section <?php if ( get_sub_field('block_id') ) { echo 'id="'.trim(esc_attr(get_sub_field('block_id'))).'"'; } ?> class="portfolio section-bg">
     <div class="container">
         <div class="section-title">
             <h2 data-aos="fade-in"><?php the_sub_field('title'); ?></h2>
@@ -13,7 +13,7 @@ defined('ABSPATH') OR exit('No direct script access allowed');
                     <?php
                     $filters = get_sub_field('filters');
                     if ( $filters ) {
-                        foreach ($filters as $item) {
+                        foreach ( $filters as $item ) {
                             if ( $item['class'] === true ) {
                                 ?>
                                 <li data-filter="*" class="<?php echo $item['class']; ?>"><?php echo $item['name']; ?></li>

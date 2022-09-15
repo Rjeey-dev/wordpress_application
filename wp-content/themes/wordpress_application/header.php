@@ -21,7 +21,7 @@ if ( is_front_page() ) {
             <?php
             $websiteLogo = get_field('logo', 'option');
             if ( is_front_page() ) {
-                if ( !empty ( $websiteLogo )):
+                if ( !empty ( $websiteLogo ) ):
                     ?>
                     <div class="logo">
                         <h1><a href="<?php echo $websiteLogo['url']; ?>"><?php echo $websiteLogo['title']; ?></a></h1>

@@ -40,7 +40,8 @@ the_post();
                                     } else {
                                         echo $item['info'];
                                     }
-                                    ?></li>
+                                    ?>
+                                </li>
                                 <?php
                             }
                         }
