@@ -2,8 +2,8 @@
 defined('ABSPATH') OR exit('No direct script access allowed');
 
 if ( wp_doing_ajax() ) {
-	require_once(get_template_directory().'/../../mu-plugins/plugins.php');
-	sap_get_theme_option();
+    require_once(get_template_directory().'/../../mu-plugins/plugins.php');
+    sap_get_theme_option();
 }
 
 include_once(get_template_directory().'/inc/other.php');
@@ -25,11 +25,11 @@ include_once(get_template_directory().'/inc/acf.php');
  *
  */
 function wordpress_scripts() {
-	$ver = 1;
-	$themes_uri = get_template_directory_uri();
+    $ver = 1;
+    $themes_uri = get_template_directory_uri();
 
-	wp_register_style('style', $themes_uri . '/assets/css/style.css', false, $ver);
-	wp_enqueue_style('style');
+    wp_register_style('style', $themes_uri . '/assets/css/style.css', false, $ver);
+    wp_enqueue_style('style');
 
     wp_register_style('bootstrap', $themes_uri . '/assets/vendor/bootstrap/css/bootstrap.min.css', false, $ver);
     wp_enqueue_style('bootstrap');
@@ -47,13 +47,13 @@ function wordpress_scripts() {
     wp_enqueue_style('swiper-bundle');
 
 
-	wp_deregister_script('jquery');
-	wp_deregister_script('wp-embed');
-	wp_dequeue_style('wp-block-library');
-	wp_dequeue_style('wp-block-library-theme');
+    wp_deregister_script('jquery');
+    wp_deregister_script('wp-embed');
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
 
-	wp_register_script('jquery', $themes_uri . '/assets/js/main.js', false, $ver, true);
-	wp_enqueue_script('jquery');
+    wp_register_script('main', $themes_uri . '/assets/js/main.js', false, $ver, true);
+    wp_enqueue_script('main');
 
     wp_register_script('aos', $themes_uri . '/assets/vendor/aos/aos.js', false, $ver, true);
     wp_enqueue_script('aos');
@@ -70,7 +70,10 @@ function wordpress_scripts() {
     wp_register_script('swiper', $themes_uri . '/assets/vendor/swiper/swiper-bundle.min.js', false, $ver, true);
     wp_enqueue_script('swiper');
 
-	wp_add_inline_script('jquery', 'var ajaxData = {"url":'.json_encode(admin_url('admin-ajax.php')).',"protect":'.json_encode(wp_create_nonce('forCustomAjax')).'};', 'before');
+    wp_register_script('jquery', $themes_uri . '/assets/js/production.js', false, $ver, true);
+    wp_enqueue_script('jquery');
+
+    wp_add_inline_script('jquery', 'var ajaxData = {"url":'.json_encode(admin_url('admin-ajax.php')).',"protect":'.json_encode(wp_create_nonce('forCustomAjax')).'};', 'before');
 }
 add_action('wp_enqueue_scripts', 'wordpress_scripts');
 
@@ -84,4 +87,82 @@ function svg_upload_allow($mimes)
 {
     $mimes['svg']  = 'image/svg+xml';
     return $mimes;
+}
+
+add_action( 'the_content', 'wpse_260756_the_content', 1, 1 );
+function wpse_260756_the_content($content) {
+    return str_replace(['<table', '</table>'], ['<div class="table-responsive"><table', '</table></div>'], $content);
+}
+
+add_action('wp_ajax_nopriv_form-send', 'custom_ajax_form_send');
+add_action('wp_ajax_form-send', 'custom_ajax_form_send');
+function custom_ajax_form_send() {
+    if ( ! wp_verify_nonce($_POST['nonce'], 'forCustomAjax') ) {
+        header("HTTP/1.0 404 Not Found");
+        exit;
+    }
+
+    parse_str($_POST['post'], $post_data);
+
+    $content = '';
+    if ( isset($post_data['cf-name']) ) {
+        $name = trim(strip_tags($post_data['cf-name']));
+        $content .= "<p>Имя: {$name}</p>";
+    }
+    if ( isset($post_data['cf-email']) ) {
+        $email = trim(strip_tags($post_data['cf-email']));
+        $content .= "<p>E-mail: {$email}</p>";
+    }
+    if ( isset($post_data['cf-phone']) ) {
+        $phone = trim(strip_tags($post_data['cf-phone']));
+        $content .= "<p>Телефон: +{$phone}</p>";
+    }
+    if ( isset($post_data['cf-text']) ) {
+        $text = trim(strip_tags($post_data['cf-text']));
+        $content .= "<p>Сообщение:</p>".wpautop($text);
+    }
+    if ( isset($post_data['cf-message']) ) {
+        $text = trim(strip_tags($post_data['cf-message']));
+        $content .= "<p>Сообщение:</p>".wpautop($text);
+    }
+
+    $status = send_email(get_field('email-to', 'option'), 'Заявка с сайта fjord-d3.ru', $content);
+
+    if ( ! $status ) {
+        wp_send_json([
+            'status' => FALSE,
+            'errCode' => 1,
+        ]);
+    } else {
+        wp_send_json([
+            'status' => TRUE,
+            'message' => wpautop('Сообщение успешно отправлено.'),
+        ]);
+    }
+
+    exit();
+}
+
+function send_email($email, $title, $content) {
+    $email_template = get_field('email-template', 'option');
+    $email_default = get_field('email-default-send', 'option');
+    $name_default = get_field('email-default-name', 'option');
+
+    $email_template = str_replace(['%%title%%', '%%content%%', '%%theme_uri%%'], [$title, $content, get_template_directory_uri()], $email_template);
+
+    add_filter('wp_mail_content_type', 'set_html_content_type');
+
+    $email_status = wp_mail($email, $title, $email_template, [
+        'from' => "$name_default <{$email_default}>",
+        'content-type' => 'text/html',
+        'reply-to' => $email_default,
+    ]);
+
+    remove_filter('wp_mail_content_type', 'set_html_content_type');
+
+    return (bool) $email_status;
+}
+
+function set_html_content_type() {
+    return 'text/html';
 }
